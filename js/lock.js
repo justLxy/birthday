@@ -1,5 +1,48 @@
-const unlockDate = new Date('2025-02-20T00:00:00').getTime();
+const unlockDate = new Date('2025-02-20T19:46:00').getTime();
 const password = 'lvxuanyi'; // 设置您的密码
+
+const gradientColors = [
+    { day: 365, colors: [[26, 11, 46], [57, 38, 87]] },   // 深紫色 (#1a0b2e to #392657)
+    { day: 355, colors: [[30, 20, 70], [60, 40, 100]] },  // 增加亮度的紫色
+    { day: 345, colors: [[35, 30, 90], [65, 45, 120]] },
+    { day: 335, colors: [[50, 35, 110], [75, 50, 130]] }, // 加入一些蓝色调
+    { day: 325, colors: [[70, 45, 130], [90, 60, 150]] },
+    { day: 315, colors: [[85, 60, 150], [100, 70, 170]] },
+    { day: 305, colors: [[100, 70, 180], [120, 80, 190]] },  // 深蓝色转变
+    { day: 295, colors: [[120, 90, 200], [140, 100, 210]] }, // 金色开始出现
+    { day: 285, colors: [[140, 110, 220], [160, 120, 230]] }, // 更加明亮
+    { day: 275, colors: [[160, 130, 240], [180, 140, 250]] },
+    { day: 265, colors: [[180, 150, 255], [190, 160, 255]] }, // 逐渐过渡到明亮色
+    { day: 255, colors: [[100, 80, 180], [150, 100, 220]] },  // 回归一些蓝紫色调
+    { day: 245, colors: [[120, 100, 200], [170, 110, 230]] }, // 紫蓝过渡
+    { day: 235, colors: [[140, 120, 210], [190, 130, 240]] },
+    { day: 225, colors: [[150, 140, 230], [210, 150, 255]] }, // 金蓝交替
+    { day: 215, colors: [[130, 120, 210], [180, 140, 240]] }, // 更加和谐的紫金组合
+    { day: 205, colors: [[110, 100, 190], [150, 120, 210]] },
+    { day: 195, colors: [[90, 80, 170], [120, 100, 190]] },
+    { day: 185, colors: [[70, 60, 150], [100, 80, 170]] },
+    { day: 175, colors: [[50, 40, 130], [80, 60, 150]] },
+    { day: 165, colors: [[30, 20, 110], [60, 40, 130]] },
+    { day: 155, colors: [[20, 10, 90], [50, 30, 120]] },
+    { day: 145, colors: [[25, 15, 100], [55, 35, 130]] },
+    { day: 135, colors: [[30, 20, 110], [60, 40, 140]] },
+    { day: 125, colors: [[40, 30, 120], [70, 50, 150]] },
+    { day: 115, colors: [[50, 40, 130], [80, 60, 160]] },
+    { day: 105, colors: [[60, 50, 140], [90, 70, 170]] },
+    { day: 95,  colors: [[70, 60, 150], [100, 80, 180]] },
+    { day: 85,  colors: [[80, 70, 160], [110, 90, 190]] },
+    { day: 75,  colors: [[90, 80, 170], [120, 100, 200]] },
+    { day: 65,  colors: [[100, 90, 180], [130, 110, 210]] },
+    { day: 55,  colors: [[110, 100, 190], [140, 120, 220]] },
+    { day: 45,  colors: [[120, 110, 200], [150, 130, 230]] },
+    { day: 35,  colors: [[130, 120, 210], [160, 140, 240]] },
+    { day: 25,  colors: [[140, 130, 220], [170, 150, 250]] },
+    { day: 15,  colors: [[150, 140, 230], [180, 160, 255]] },
+    { day: 5,   colors: [[160, 150, 240], [190, 170, 255]] },
+    { day: 0,   colors: [[120, 100, 210], [180, 140, 255]] } // 最终为紫蓝和谐色
+];
+
+
 
 function updateCountdown() {
     const now = new Date().getTime();
@@ -129,25 +172,32 @@ function intensifyBackground() {
     const lockScreen = document.querySelector('.lock-screen');
     const now = new Date().getTime();
     const timeLeft = unlockDate - now;
-    const daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-    
-    // 调整为紫色系渐变
-    const intensity = Math.max(0, Math.min(1, (30 - daysLeft) / 30));
-    const color1 = interpolateColors(
-        [26, 11, 46],  // #1a0b2e
-        [82, 45, 128], // #522d80
-        intensity
-    );
-    const color2 = interpolateColors(
-        [57, 38, 87],  // #392657
-        [147, 87, 186], // #9357ba
-        intensity
-    );
-    
+    const daysLeft = Math.max(0, Math.floor(timeLeft / (1000 * 60 * 60 * 24)));
+
+    // 动态选择两个最近的颜色节点
+    let startColorStop = gradientColors[0];
+    let endColorStop = gradientColors[gradientColors.length - 1];
+
+    for (let i = 0; i < gradientColors.length - 1; i++) {
+        if (daysLeft <= gradientColors[i].day && daysLeft >= gradientColors[i + 1].day) {
+            startColorStop = gradientColors[i];
+            endColorStop = gradientColors[i + 1];
+            break;
+        }
+    }
+
+    const totalDays = startColorStop.day - endColorStop.day;
+    const daysIntoStage = startColorStop.day - daysLeft;
+    const factor = daysIntoStage / totalDays;
+
+    const color1 = interpolateColors(startColorStop.colors[0], endColorStop.colors[0], factor);
+    const color2 = interpolateColors(startColorStop.colors[1], endColorStop.colors[1], factor);
+
     lockScreen.style.background = `linear-gradient(45deg, 
         rgb(${color1.join(',')}), 
         rgb(${color2.join(',')}))`;
 }
+
 
 function interpolateColors(start, end, factor) {
     return start.map((startVal, i) => {

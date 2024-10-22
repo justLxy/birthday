@@ -12,7 +12,7 @@
     z-index: 9999;
     font-family: 'Roboto', sans-serif;
     overflow: hidden;
-    transition: background 2s ease;
+    transition: background 1s ease;
 }
 
 /* 普通星星 */
