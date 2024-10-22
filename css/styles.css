@@ -1,0 +1,50 @@
+.birthday-wishes {
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(45deg, #1a0a2e, #3a1c54);
+    color: #ffd700;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
+}
+
+.main-wish {
+    font-size: 2.8em;
+    color: #ff4500;
+    text-shadow: 2px 2px 4px rgba(255,69,0,0.6);
+    min-height: 1.2em;
+}
+
+.days-known {
+    font-size: 1.4em;
+    color: #4169e1;
+    margin: 20px 0 30px;
+    min-height: 1.2em;
+}
+
+.creative-wishes p {
+    font-size: 1.2em;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin: 15px 0;
+    border: 2px solid #ffd700;
+    transition: all 0.3s ease;
+    min-height: 1.2em;
+}
+
+.creative-wishes p:hover {
+    background: rgba(255, 215, 0, 0.2);
+    transform: scale(1.03);
+}
+
+/* 光标效果 */
+.typing::after {
+    content: '|';
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
