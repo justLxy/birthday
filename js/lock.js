@@ -173,18 +173,19 @@ function interpolateColors(start, end, factor) {
     return start.map((startVal, i) => Math.round(startVal + (end[i] - startVal) * factor));
 }
 
-// 修改后的背景渐变函数，始终以秒为单位平滑变化
-// 计算从页面加载时刻到解锁时刻的整体进度，用于插值计算
+/* 修改后的背景渐变函数：
+   从页面加载时刻到解锁时刻的整体进度原本变化很慢，
+   我们通过引入 multiplier 加速插值进度，使得每秒的颜色变化更加明显 */
 function intensifyBackground() {
     const lockScreen = document.querySelector('.lock-screen');
     const currentTime = new Date().getTime();
     const totalDuration = unlockDate - startTime;
     const elapsed = currentTime - startTime;
-    // 保证 factor 范围在 [0,1]
-    const factor = Math.min(elapsed / totalDuration, 1);
+    // 设置速率因子（可根据需要调整值，使得每秒颜色变化更明显）
+    const multiplier = 10000;
+    const factor = Math.min((elapsed * multiplier) / totalDuration, 1);
     
-    // 这里选择初始渐变色为 gradientColors 数组的第一个值，
-    // 解锁时的颜色为 gradientColors 数组的最后一个值
+    // 初始渐变色取自数组第一个，解锁时的颜色取自数组最后一个
     const startGradient = { colors: gradientColors[0].colors };
     const endGradient = { colors: gradientColors[gradientColors.length - 1].colors };
     
@@ -293,4 +294,3 @@ function typeNextWish() {
 }
 
 document.addEventListener('DOMContentLoaded', typeNextWish);
-
