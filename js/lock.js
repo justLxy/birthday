@@ -1,4 +1,4 @@
-const unlockDate = new Date(2025, 1, 20, 0, 0, 0).getTime();
+const unlockDate = new Date('2025-02-20T00:00:00').getTime();
 const password = 'lvxuanyi'; // 设置您的密码
 
 const gradientColors = [
