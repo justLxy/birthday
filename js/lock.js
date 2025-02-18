@@ -1,5 +1,3 @@
-// 记录页面加载时的起始时间
-const startTime = new Date().getTime();
 
 const unlockDate = new Date('2025-02-20T00:00:00').getTime();
 const password = 'lvxuanyi'; // 设置您的密码
@@ -45,6 +43,9 @@ const gradientColors = [
     { day: 0,   colors: [[120, 100, 210], [180, 140, 255]] }
 ];
 
+//
+// 倒计时及其他相关函数
+//
 function updateCountdown() {
     const now = new Date().getTime();
     const distance = unlockDate - now;
@@ -58,8 +59,6 @@ function updateCountdown() {
     document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
     document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
     document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-
-    intensifyBackground();
 
     if (distance < 0) {
         clearInterval(countdownTimer);
@@ -111,6 +110,33 @@ function updateFriendshipTime() {
     totalDaysElement.textContent = `也就是 ${totalDays} 天`;
 }
 
+//
+// 特效渐变：使用 requestAnimationFrame 实现每一帧更新
+//
+let gradientPhase = 0;
+function animateBackground() {
+    const lockScreen = document.querySelector('.lock-screen');
+    // 递增相位（可调整速度，数值越大变化越快）
+    gradientPhase += 0.005;
+    // 使用正弦函数，让因子在 0 ~ 1 之间往返变化
+    const factor = (Math.sin(gradientPhase) + 1) / 2;
+
+    // 这里我们选择初始颜色取自数组第一个，最终颜色取自数组最后一个
+    const startGradient = { colors: gradientColors[0].colors };
+    const endGradient = { colors: gradientColors[gradientColors.length - 1].colors };
+
+    const color1 = interpolateColors(startGradient.colors[0], endGradient.colors[0], factor);
+    const color2 = interpolateColors(startGradient.colors[1], endGradient.colors[1], factor);
+
+    lockScreen.style.background = `linear-gradient(45deg, rgb(${color1.join(',')}), rgb(${color2.join(',')}))`;
+
+    requestAnimationFrame(animateBackground);
+}
+
+function interpolateColors(start, end, factor) {
+    return start.map((startVal, i) => Math.round(startVal + (end[i] - startVal) * factor));
+}
+
 function triggerConfetti() {
     const lockScreen = document.getElementById('lockScreen');
     for (let i = 0; i < 100; i++) {
@@ -124,8 +150,6 @@ function triggerConfetti() {
 
 function createStars() {
     const container = document.querySelector('.lock-screen');
-    
-    // 创建静态星星
     const starCount = 150;
     for (let i = 0; i < starCount; i++) {
         const star = document.createElement('div');
@@ -149,50 +173,17 @@ function createShootingStars() {
         
         const star = document.createElement('div');
         star.className = 'shooting-star';
-        
-        // 在右上角随机位置出发
         const startX = window.innerWidth;
         const startY = Math.random() * (window.innerHeight * 0.3);
-        
         star.style.left = `${startX}px`;
         star.style.top = `${startY}px`;
-        
-        // 随机动画时长
         const duration = 1.5 + Math.random();
         star.style.animation = `shooting ${duration}s linear forwards`;
-        
         container.appendChild(star);
-        
         setTimeout(() => star.remove(), duration * 1000);
     }
     
     setInterval(createStar, 2000);
-}
-
-function interpolateColors(start, end, factor) {
-    return start.map((startVal, i) => Math.round(startVal + (end[i] - startVal) * factor));
-}
-
-/* 修改后的背景渐变函数：
-   从页面加载时刻到解锁时刻的整体进度原本变化很慢，
-   我们通过引入 multiplier 加速插值进度，使得每秒的颜色变化更加明显 */
-function intensifyBackground() {
-    const lockScreen = document.querySelector('.lock-screen');
-    const currentTime = new Date().getTime();
-    const totalDuration = unlockDate - startTime;
-    const elapsed = currentTime - startTime;
-    // 设置速率因子（可根据需要调整值，使得每秒颜色变化更明显）
-    const multiplier = 10000;
-    const factor = Math.min((elapsed * multiplier) / totalDuration, 1);
-    
-    // 初始渐变色取自数组第一个，解锁时的颜色取自数组最后一个
-    const startGradient = { colors: gradientColors[0].colors };
-    const endGradient = { colors: gradientColors[gradientColors.length - 1].colors };
-    
-    const color1 = interpolateColors(startGradient.colors[0], endGradient.colors[0], factor);
-    const color2 = interpolateColors(startGradient.colors[1], endGradient.colors[1], factor);
-    
-    lockScreen.style.background = `linear-gradient(45deg, rgb(${color1.join(',')}), rgb(${color2.join(',')}))`;
 }
 
 function createConfetti() {
@@ -215,10 +206,15 @@ function createConfetti() {
     setTimeout(() => container.remove(), 6000);
 }
 
-// 初始化星空特效
+//
+// 初始化所有动画与特效
+//
 document.addEventListener('DOMContentLoaded', () => {
     createStars();
     createShootingStars();
+    animateBackground();  // 启动平滑背景渐变动画
+    updateDaysKnown();
+    setWishesAnimation();
 });
 
 function updateDaysKnown() {
@@ -240,14 +236,6 @@ function setWishesAnimation() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    updateDaysKnown();
-    setWishesAnimation();
-});
-
-// 每天更新一次天数
-setInterval(updateDaysKnown, 24 * 60 * 60 * 1000);
-
 const wishes = [
     "生日快乐，我的金铲铲开黑伙伴！🎉🎮",
     "我们已经相识 {days} 天啦",
@@ -267,7 +255,6 @@ function typeWriter(element, text, i = 0) {
 }
 
 let currentWish = 0;
-
 function typeNextWish() {
     if (currentWish < wishes.length) {
         let element;
