@@ -1,6 +1,6 @@
 # 🎉 生日惊喜网站 / Birthday Surprise Website 🎉
 
-**亲爱的朋友，这是为你精心准备的生日惊喜网站！**  
+**这是为你精心准备的生日惊喜网站！**  
 **Dear friend, this is a birthday surprise website specially prepared for you!**
 
 ---
