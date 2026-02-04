@@ -1056,7 +1056,7 @@ audio {
 	100% {
 		-ms-transform:translate(0px,0px);
 	}
-}o
+}
 @keyframes bannar_come {
 	0%{
 		transform:translate(0px,-1000px);
@@ -1351,6 +1351,43 @@ audio {
 	background: url(../image/box.png) no-repeat;
 	background-size: 160px 160px;
 	background-position: 10px 10px;
+}
+
+/* ---------- zoom/lightbox UI tweaks ----------------------- */
+#zoom_overlay{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0,0,0,0.55);
+	backdrop-filter: blur(2px);
+	-webkit-backdrop-filter: blur(2px);
+	z-index: 9998;
+}
+#zoom{
+	z-index: 9999;
+}
+#zoom .round_shade_center{
+	background: transparent;
+	padding: 0;
+}
+#zoom_content{
+	max-width: 100%;
+	max-height: calc(92vh - 110px);
+	overflow: auto;
+	text-align: center;
+	background: rgba(10, 10, 10, 0.92);
+	border-radius: 10px;
+	padding: 10px;
+}
+#zoom_content img{
+	max-width: 100%;
+	max-height: calc(92vh - 140px);
+	width: auto !important;
+	height: auto;
+	display: block;
+	margin: 0 auto;
 }
 .pho {
 	-moz-transform:scale(0.5); 

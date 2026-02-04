@@ -47,7 +47,7 @@ $(document).ready(function(){
         $('#b22').animate({top:240, left: vw-300*size},500);
         $('#b33').animate({top:240, left: vw-200*size},500);
         $('#b44').animate({top:240, left: vw-100*size},500);
-        $('#b55').animate({top:240, left: vw+00*size},500);
+        $('#b55').animate({top:240, left: vw},500);
         $('#b66').animate({top:240, left: vw+100*size},500);
         $('#b77').animate({top:240, left: vw+200*size},500);
         $('#b88').animate({top:240, left: vw+300*size},500);
@@ -208,7 +208,7 @@ $(document).ready(function(){
        $('#b22').animate({top:240, left: vw-300*size},500);
        $('#b33').animate({top:240, left: vw-200*size},500);
        $('#b44').animate({top:240, left: vw-100*size},500);
-       $('#b55').animate({top:240, left: vw+00*size},500);
+       $('#b55').animate({top:240, left: vw},500);
        $('#b66').animate({top:240, left: vw+100*size},500);
        $('#b77').animate({top:240, left: vw+200*size},500);
        $('#b88').animate({top:240, left: vw+300*size},500);
@@ -238,7 +238,7 @@ $(document).ready(function(){
            i=i+1;
            if (i < 3)
                $("p:nth-child("+i+")").fadeIn('slow').delay(1000).promise().done(function(){
-                   if(i==10){}
+                   if(i==12){}
                    else{
                        msgLoop(i);
                    }
@@ -247,14 +247,14 @@ $(document).ready(function(){
                if (i==3 && system.iPad) $("#blank").fadeIn('fast');
                if(system.Android||system.iPhone)
                    $("#pic2"+(i-2)).fadeIn('slow').delay(500).promise().done(function(){
-                       if(i==10){}
+                       if(i==12){}
                        else{
                            msgLoop(i);
                        }
                    });
                else
                    $("#pic1"+(i-2)).fadeIn('slow').delay(500).promise().done(function(){
-                       if(i==10){}
+                       if(i==12){}
                        else{
                            msgLoop(i);
                        }

@@ -183,6 +183,14 @@
 					<a href="#pic8"><span></span><img src="pic/pic8.jpg" alt="image" class="picbox"></a>
 				</div>
 			</div>
+			<div id="pho3" style="margin-top: 15px; display: inline-block;">
+				<div class="photo sample4" style="display: none;" id="pic19">
+					<a href="#pic9"><span></span><img src="pic/pic9.jpg" alt="image" class="picbox"></a>
+				</div>
+				<div class="photo sample4" style="display: none;" id="pic110">
+					<a href="#pic10"><span></span><img src="pic/pic10.jpg" alt="image" class="picbox"></a>
+				</div>
+			</div>
 		</center>
 
 		<center id="cen2">
@@ -216,6 +224,14 @@
 					<a href="#pic8"><span></span><img src="pic/pic8.jpg" alt="image" class="picbox"></a>
 				</div>
 			</div>
+			<div id="pho3" style="margin-top: 10px; display: inline-block;">
+				<div class="photo sample4" style="display: none;" id="pic29">
+					<a href="#pic9"><span></span><img src="pic/pic9.jpg" alt="image" class="picbox"></a>
+				</div>
+				<div class="photo sample4" style="display: none;" id="pic210">
+					<a href="#pic10"><span></span><img src="pic/pic10.jpg" alt="image" class="picbox"></a>
+				</div>
+			</div>
 		</center>
 
 	    <!-- 要放大显示的div -->
@@ -227,6 +243,8 @@
 	    <div id="pic6" style="display:none;"><img src="pic/pic6.jpg" /></div>
 	    <div id="pic7" style="display:none;"><img src="pic/pic7.jpg" /></div>
 	    <div id="pic8" style="display:none;"><img src="pic/pic8.jpg" /></div>
+	    <div id="pic9" style="display:none;"><img src="pic/pic9.jpg" /></div>
+	    <div id="pic10" style="display:none;"><img src="pic/pic10.jpg" /></div>
 
 		<div class="navbar navbar-fixed-bottom">
 			<div class="row">
@@ -304,8 +322,7 @@
   ga('send', 'pageview');
 
 	$(document).ready(function() {
-		$('#pho1 a').fancyZoom({scaleImg: true, closeOnClick: true});
-		$('#pho2 a').fancyZoom({scaleImg: true, closeOnClick: true});
+		$('#cen1 .photo a, #cen2 .photo a').fancyZoom({scaleImg: true, closeOnClick: true});
 	});
 
 </script>
